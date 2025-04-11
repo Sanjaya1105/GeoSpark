@@ -1,0 +1,10 @@
+/* Add your global styles here */
+
+.bg-pattern-world {
+  background-image: url('./images/earth-texture.jpg');
+  background-repeat: repeat;
+  background-size: 500px;
+  opacity: 0.1;
+}
+
+/* Other global styles */
