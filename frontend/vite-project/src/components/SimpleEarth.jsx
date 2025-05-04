@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import staticEarthImage from '../images/static_earth.jpg';
 
 const SimpleEarth = () => {
   const [loaded, setLoaded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     // Simulate loading to ensure animation shows properly
@@ -11,6 +13,10 @@ const SimpleEarth = () => {
     
     return () => clearTimeout(timer);
   }, []);
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
 
   return (
     <div style={{
@@ -22,7 +28,7 @@ const SimpleEarth = () => {
       minHeight: '400px',
       position: 'relative'
     }}>
-      {!loaded && (
+      {(!loaded || !imageLoaded) && (
         <div className="loading-text" style={{
           position: 'absolute',
           color: '#0070f3',
@@ -37,76 +43,29 @@ const SimpleEarth = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        opacity: loaded ? 1 : 0,
+        opacity: loaded && imageLoaded ? 1 : 0,
         transition: 'opacity 1s ease'
       }}>
         <div
-          id="earth"
           style={{
             position: 'relative',
             width: '300px',
             height: '300px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle at 100px 100px, #5cabff, #000)',
-            boxShadow: 'inset 0 0 50px rgba(0,0,0,0.6), 0 0 20px rgba(0, 100, 255, 0.4)',
+            overflow: 'hidden',
+            boxShadow: '0 0 20px rgba(0, 100, 255, 0.4)',
           }}
         >
-          {/* Africa */}
-          <div style={{
-            position: 'absolute',
-            width: '130px',
-            height: '170px',
-            top: '100px',
-            left: '105px',
-            background: 'rgba(76, 175, 80, 0.4)',
-            borderRadius: '55% 22% 44% 33%'
-          }}></div>
-
-          {/* Europe/Asia */}
-          <div style={{
-            position: 'absolute',
-            width: '180px',
-            height: '110px',
-            top: '50px',
-            left: '60px',
-            background: 'rgba(76, 175, 80, 0.4)',
-            borderRadius: '25% 55% 30% 55%'
-          }}></div>
-
-          {/* North America */}
-          <div style={{
-            position: 'absolute',
-            width: '110px',
-            height: '130px',
-            top: '50px',
-            left: '0px',
-            background: 'rgba(76, 175, 80, 0.4)',
-            borderRadius: '25% 45% 40% 35%',
-            transform: 'rotate(-25deg)'
-          }}></div>
-
-          {/* South America */}
-          <div style={{
-            position: 'absolute',
-            width: '70px',
-            height: '100px',
-            top: '180px',
-            left: '35px',
-            background: 'rgba(76, 175, 80, 0.4)',
-            borderRadius: '45% 30% 40% 35%',
-            transform: 'rotate(15deg)'
-          }}></div>
-
-          {/* Australia */}
-          <div style={{
-            position: 'absolute',
-            width: '60px',
-            height: '50px',
-            top: '200px',
-            right: '40px',
-            background: 'rgba(76, 175, 80, 0.4)',
-            borderRadius: '45% 25% 45% 35%'
-          }}></div>
+          <img 
+            src={staticEarthImage} 
+            alt="Earth" 
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+            onLoad={handleImageLoad}
+          />
           
           {/* Earth glow effect */}
           <div style={{
@@ -124,16 +83,24 @@ const SimpleEarth = () => {
 
       <style jsx="true">{`
         @media (max-width: 768px) {
-          #earth {
-            width: 200px;
-            height: 200px;
+          img {
+            width: 200px !important;
+            height: 200px !important;
+          }
+          div > div > div {
+            width: 200px !important;
+            height: 200px !important;
           }
         }
 
         @media (max-width: 480px) {
-          #earth {
-            width: 150px;
-            height: 150px;
+          img {
+            width: 150px !important;
+            height: 150px !important;
+          }
+          div > div > div {
+            width: 150px !important;
+            height: 150px !important;
           }
         }
       `}</style>
