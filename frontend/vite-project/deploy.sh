@@ -14,6 +14,10 @@ rm -rf node_modules/.vite
 echo "Installing dependencies..."
 npm install
 
+# Ensure terser is installed
+echo "Installing terser explicitly..."
+npm install --save-dev terser
+
 # Create or update .env.production
 echo "Creating production environment variables..."
 echo "VITE_API_URL=https://geo-spark-sanjaya1105s-projects.vercel.app" > .env.production
