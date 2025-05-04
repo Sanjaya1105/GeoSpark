@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: #ffffff;
+  background: transparent;
   min-height: 500px;
 }
 
@@ -14,7 +14,8 @@
   width: 30em;
   height: 30em;
   position: relative;
-  background: #0588e4 url('../images/earth-texture.jpg');
+  background-color: #0588e4;
+  /* background URL is now set via inline style */
   background-size: cover;
   border-radius: 50%;
   box-shadow: inset 0 0 3em rgba(0, 0, 0, 0.8),
@@ -34,6 +35,13 @@
 }
 
 /* Responsive adjustments */
+@media (max-width: 1200px) {
+  .earth-container {
+    width: 25em;
+    height: 25em;
+  }
+}
+
 @media (max-width: 768px) {
   .earth-container {
     width: 20em;
@@ -46,4 +54,17 @@
     width: 15em;
     height: 15em;
   }
+}
+
+/* Fallback for when image doesn't load */
+.earth-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0588e4;
+  border-radius: 50%;
+  z-index: -1;
 } 
