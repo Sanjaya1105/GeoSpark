@@ -36,6 +36,25 @@
     .error {
       color: red;
     }
+    button {
+      background: #0070f3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 8px 0;
+    }
+    button:hover {
+      background: #0055cc;
+    }
+    input[type="text"] {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      width: 100%;
+      margin-bottom: 8px;
+    }
   </style>
 </head>
 <body>
@@ -50,6 +69,15 @@
     
     <h2>API Connection</h2>
     <div id="api-check">Checking API connection...</div>
+    
+    <h2>API Testing Tool</h2>
+    <div>
+      <p>Test different API endpoints:</p>
+      <input type="text" id="api-url" placeholder="API URL (e.g., https://geo-spark-sanjaya1105s-projects.vercel.app)" value="https://geo-spark-sanjaya1105s-projects.vercel.app">
+      <input type="text" id="endpoint" placeholder="Endpoint (e.g., /api/users)">
+      <button onclick="testEndpoint()">Test Endpoint</button>
+      <div id="endpoint-result"></div>
+    </div>
     
     <h2>Browser Information</h2>
     <div id="browser-info"></div>
@@ -104,6 +132,46 @@ Meta Tags: ${document.querySelector('meta[name="env"]') ? 'Found' : 'Not found'}
         document.getElementById('api-check').innerHTML = 
           `<span class="error">✗ API connection failed: ${error.message}</span>`;
       });
+      
+    // Function to test specific endpoints
+    function testEndpoint() {
+      const baseUrl = document.getElementById('api-url').value.trim();
+      let endpoint = document.getElementById('endpoint').value.trim();
+      
+      // Format the endpoint
+      if (endpoint && !endpoint.startsWith('/')) {
+        endpoint = '/' + endpoint;
+      }
+      
+      const fullUrl = baseUrl + endpoint;
+      const resultDiv = document.getElementById('endpoint-result');
+      
+      resultDiv.innerHTML = `<p>Testing: ${fullUrl}</p>`;
+      
+      fetch(fullUrl)
+        .then(response => {
+          if (response.ok) {
+            return response.text().then(text => {
+              resultDiv.innerHTML += `
+                <span class="success">✓ Request successful (${response.status})</span>
+                <pre>${text.substring(0, 500)}${text.length > 500 ? '...' : ''}</pre>
+              `;
+            });
+          } else {
+            return response.text().catch(() => 'No response body').then(text => {
+              resultDiv.innerHTML += `
+                <span class="error">✗ Request failed with status: ${response.status}</span>
+                <pre>${text.substring(0, 500) || 'No response body'}</pre>
+              `;
+            });
+          }
+        })
+        .catch(error => {
+          resultDiv.innerHTML += `
+            <span class="error">✗ Network error: ${error.message}</span>
+          `;
+        });
+    }
   </script>
 </body>
 </html> 
