@@ -33,7 +33,7 @@ const SimpleEarth = () => {
         </div>
       )}
       
-      <div className="earth-container" style={{
+      <div style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -41,7 +41,6 @@ const SimpleEarth = () => {
         transition: 'opacity 1s ease'
       }}>
         <div
-          className="earth-sphere"
           id="earth"
           style={{
             position: 'relative',
