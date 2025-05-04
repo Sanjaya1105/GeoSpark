@@ -1,36 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import EarthAnimation from './EarthAnimation';
-import EarthFallback from './EarthFallback';
+import SimpleEarth from './SimpleEarth';
 import authService from '../services/authService';
 
 const Hero = () => {
   const navigate = useNavigate();
   const isLoggedIn = authService.getCurrentUser() !== null;
-  const [useEarthFallback, setUseEarthFallback] = useState(false);
-
-  useEffect(() => {
-    // Try to load the earth texture image to determine if we need the fallback
-    const img = new Image();
-    img.src = new URL('../images/earth-texture.jpg', import.meta.url).href;
-    
-    const timeout = setTimeout(() => {
-      // If image takes too long to load, use fallback
-      setUseEarthFallback(true);
-    }, 2000);
-    
-    img.onload = () => {
-      clearTimeout(timeout);
-      setUseEarthFallback(false);
-    };
-    
-    img.onerror = () => {
-      clearTimeout(timeout);
-      setUseEarthFallback(true);
-    };
-    
-    return () => clearTimeout(timeout);
-  }, []);
 
   const handleStartJourney = () => {
     navigate('/countries');
@@ -81,9 +56,9 @@ const Hero = () => {
             </main>
           </div>
 
-          {/* Earth Animation with Fallback */}
+          {/* Earth Animation */}
           <div className="w-full lg:w-1/2 h-[400px] sm:h-[500px] md:h-[600px] lg:h-auto">
-            {useEarthFallback ? <EarthFallback /> : <EarthAnimation />}
+            <SimpleEarth />
           </div>
         </div>
       </div>

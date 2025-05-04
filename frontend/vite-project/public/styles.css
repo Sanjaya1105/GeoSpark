@@ -1,0 +1,31 @@
+/* Global Animation Styles */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Earth animation styles */
+.earth-sphere {
+  animation: spin 20s linear infinite;
+}
+
+.earth-container {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+/* Loading text animation */
+@keyframes fadeInOut {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+.loading-text {
+  animation: fadeInOut 1.5s infinite;
+} 
