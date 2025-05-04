@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GeoSpark Debug Page</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #0070f3;
+    }
+    p {
+      line-height: 1.6;
+    }
+    pre {
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>GeoSpark Debug Information</h1>
+    
+    <h2>Environment Check</h2>
+    <div id="env-info">Checking environment...</div>
+    
+    <h2>React Compatibility</h2>
+    <div id="react-check">Checking React...</div>
+    
+    <h2>API Connection</h2>
+    <div id="api-check">Checking API connection...</div>
+    
+    <h2>Browser Information</h2>
+    <div id="browser-info"></div>
+  </div>
+  
+  <script>
+    // Display browser info
+    document.getElementById('browser-info').innerHTML = `
+      <pre>
+User Agent: ${navigator.userAgent}
+Platform: ${navigator.platform}
+Language: ${navigator.language}
+Cookies Enabled: ${navigator.cookieEnabled}
+      </pre>
+    `;
+    
+    // Check for React compatibility
+    try {
+      const reactTest = document.createElement('div');
+      reactTest.dataset.reactroot = '';
+      document.getElementById('react-check').innerHTML = 
+        '<span class="success">✓ Browser supports React features</span>';
+    } catch (e) {
+      document.getElementById('react-check').innerHTML = 
+        `<span class="error">✗ React compatibility issue: ${e.message}</span>`;
+    }
+    
+    // Try to access environment variables (will only work if exposed to window)
+    document.getElementById('env-info').innerHTML = `
+      <pre>
+Window ENV: ${window.ENV ? JSON.stringify(window.ENV, null, 2) : 'Not available'}
+Meta Tags: ${document.querySelector('meta[name="env"]') ? 'Found' : 'Not found'}
+      </pre>
+    `;
+    
+    // Try to connect to API
+    const apiUrl = 'https://geo-spark-sanjaya1105s-projects.vercel.app';
+    
+    fetch(apiUrl)
+      .then(response => {
+        if (response.ok) {
+          return response.text().then(text => {
+            document.getElementById('api-check').innerHTML = 
+              `<span class="success">✓ API connection successful</span>
+               <pre>${text.substring(0, 100)}${text.length > 100 ? '...' : ''}</pre>`;
+          });
+        } else {
+          throw new Error(`Status: ${response.status}`);
+        }
+      })
+      .catch(error => {
+        document.getElementById('api-check').innerHTML = 
+          `<span class="error">✗ API connection failed: ${error.message}</span>`;
+      });
+  </script>
+</body>
+</html> 
