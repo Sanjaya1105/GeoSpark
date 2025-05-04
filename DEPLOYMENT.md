@@ -29,7 +29,7 @@ This document provides step-by-step instructions for deploying both the frontend
    ```
    - When prompted, select "Y" to link to an existing project, or "N" to create a new one
    - Follow the interactive prompts
-   - Make note of the deployment URL that Vercel provides (e.g., https://your-backend-name.vercel.app)
+   - Make note of the deployment URL that Vercel provides (e.g., https://geo-spark-sanjaya1105s-projects.vercel.app)
 
 4. Set environment variables in the Vercel dashboard:
    - Go to https://vercel.com/dashboard
@@ -42,9 +42,9 @@ This document provides step-by-step instructions for deploying both the frontend
 
 1. Update the backend API URL:
    - Create a `.env.production` file in the frontend/vite-project directory
-   - Add the following line, replacing with your actual backend URL:
+   - Add the following line, replacing with your actual backend URL (do NOT add /api at the end):
      ```
-     VITE_API_URL=https://your-backend-name.vercel.app/api
+     VITE_API_URL=https://geo-spark-sanjaya1105s-projects.vercel.app
      ```
 
 2. Navigate to the frontend directory:
@@ -59,7 +59,28 @@ This document provides step-by-step instructions for deploying both the frontend
    - Follow the interactive prompts
    - When asked about build settings, Vercel should automatically detect the Vite configuration
 
-4. Once deployed, your frontend will be available at the URL provided by Vercel.
+4. Alternatively, set the environment variable directly in Vercel:
+   - In the Vercel dashboard, select your frontend project
+   - Go to "Settings" > "Environment Variables"
+   - Add a new variable:
+     - Name: `VITE_API_URL`
+     - Value: `https://geo-spark-sanjaya1105s-projects.vercel.app`
+
+5. Once deployed, your frontend will be available at the URL provided by Vercel.
+
+## Important: API Endpoints in Your Code
+
+Make sure your frontend code appends the correct API paths when making requests:
+
+```javascript
+import { API_URL } from './config';
+
+// Example of a correct API call
+fetch(`${API_URL}/api/users/login`, {
+  method: 'POST',
+  // other options
+});
+```
 
 ## Alternative: Deploy directly from GitHub
 
