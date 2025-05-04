@@ -1,13 +1,16 @@
 import axios from 'axios';
+import { API_URL as BASE_URL } from '../config';
 
-const API_URL = 'http://localhost:5000/api/users';
+const API_URL = `${BASE_URL}/api/users`;
 
 // Register user
 const register = async (userData) => {
   try {
+    console.log('Registering user with API URL:', API_URL);
     const response = await axios.post(`${API_URL}/register`, userData);
     return response.data;
   } catch (error) {
+    console.error('Registration error:', error);
     throw error.response ? error.response.data : new Error('Network error');
   }
 };
@@ -15,6 +18,7 @@ const register = async (userData) => {
 // Login user
 const login = async (credentials) => {
   try {
+    console.log('Logging in user with API URL:', API_URL);
     const response = await axios.post(`${API_URL}/login`, credentials);
     
     if (response.data.token) {
@@ -23,6 +27,7 @@ const login = async (credentials) => {
     
     return response.data;
   } catch (error) {
+    console.error('Login error:', error);
     throw error.response ? error.response.data : new Error('Network error');
   }
 };
@@ -59,7 +64,21 @@ const getUserProfile = async () => {
     const response = await axios.get(`${API_URL}/profile`, config);
     return response.data;
   } catch (error) {
+    console.error('Get profile error:', error);
     throw error.response ? error.response.data : new Error('Network error');
+  }
+};
+
+// Add a test function to verify API connectivity
+const testConnection = async () => {
+  try {
+    console.log('Testing connection to API URL:', BASE_URL);
+    const response = await axios.get(BASE_URL);
+    console.log('API response:', response.data);
+    return { success: true, message: response.data };
+  } catch (error) {
+    console.error('API connection test failed:', error);
+    return { success: false, error: error.message };
   }
 };
 
@@ -68,7 +87,8 @@ const authService = {
   login,
   logout,
   getCurrentUser,
-  getUserProfile
+  getUserProfile,
+  testConnection
 };
 
 export default authService; 

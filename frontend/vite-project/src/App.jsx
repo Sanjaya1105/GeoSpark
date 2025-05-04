@@ -12,6 +12,7 @@ import FavoriteCountries from './components/FavoriteCountries'
 import PublicCountryExplorer from './components/PublicCountryExplorer'
 import PublicCountryDetails from './components/PublicCountryDetails'
 import AllCountries from './components/AllCountries'
+import AuthDebug from './components/AuthDebug'
 import './App.css'
 
 function App() {
@@ -41,6 +42,8 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        {/* Debug component - only visible in development or when needed */}
+        {(import.meta.env.DEV || window.location.search.includes('debug=true')) && <AuthDebug />}
       </div>
     </Router>
   )
